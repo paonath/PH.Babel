@@ -1,4 +1,4 @@
-# PH.Babel2
+# PH.Babel2 [![NuGet Badge](https://buildstats.info/nuget/PH.Babel2)](https://www.nuget.org/packages/PH.Babel2/)
 
 A netstandard2.0 utility based on IStringLocalizer and Json
 
