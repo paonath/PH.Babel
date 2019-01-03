@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Options;
 using PH.Babel2.Config;
 using PH.Babel2.Models;
@@ -16,7 +17,8 @@ namespace PH.Babel2.Extensions
 
 
 
-        public static List<BabelLocalizationFormat> ToBabelLocalizationFormats(this ResourceModel m, DateTime? lastWritetimeUtc)
+        [NotNull]
+        public static List<BabelLocalizationFormat> ToBabelLocalizationFormats([CanBeNull] this ResourceModel m, DateTime? lastWritetimeUtc)
         {
             var tmp = new List<BabelLocalizationFormat>();
             if (null == m)

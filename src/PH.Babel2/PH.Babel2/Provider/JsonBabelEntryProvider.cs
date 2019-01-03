@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -23,12 +24,12 @@ namespace PH.Babel2.Provider
         private readonly IMemoryCache _babelCache;
         private const string cacheKey = "PH_Babel2";
 
-        public JsonBabelEntryProvider(ILogger<BabelStringLocalizer> logger, IOptions<BabelLocalizationOptions> options, IMemoryCache babelCache)
+        public JsonBabelEntryProvider(ILogger<BabelStringLocalizer> logger, [NotNull] IOptions<BabelLocalizationOptions> options, IMemoryCache babelCache)
         :this(logger,options.Value,babelCache)
         {
         }
 
-        public JsonBabelEntryProvider(ILogger<BabelStringLocalizer> logger,BabelLocalizationOptions options, IMemoryCache babelCache):base(logger, options)
+        public JsonBabelEntryProvider(ILogger<BabelStringLocalizer> logger,[NotNull] BabelLocalizationOptions options, IMemoryCache babelCache):base(logger, options)
         {
             _babelCache = babelCache;
             Disposed = false;
@@ -46,6 +47,7 @@ namespace PH.Babel2.Provider
 
         public bool Initialized { get; private set; }
 
+        [NotNull]
         public IEntryProvider Initialize()
         {
             var t = InitializeAsync();
@@ -53,6 +55,7 @@ namespace PH.Babel2.Provider
             return t.Result;
         }
 
+        [ItemNotNull]
         public async Task<IEntryProvider> InitializeAsync()
         {
             _fileSystemWatcher.EnableRaisingEvents = true;
@@ -62,6 +65,7 @@ namespace PH.Babel2.Provider
             return this;
         }
 
+        [NotNull]
         internal List<CultureInfo> GetSupportedCultures(out List<BabelLocalizationFormat> entries)
         {
             entries = ProvideEntries();
@@ -96,6 +100,7 @@ namespace PH.Babel2.Provider
         public List<Type> SupportedResources; 
 
 
+        [ItemNotNull]
         internal async Task<Tuple<List<BabelLocalizationFormat>,List<FileInfo>>> ReGenerateCacheAsync()
         {
             var files      = ResourceDirectory.GetFiles("*.json");
@@ -166,6 +171,7 @@ namespace PH.Babel2.Provider
                 return await ProvideEntriesAsyncFromFileSystem();
         }
 
+        [NotNull]
         public Dictionary<string, List<CultureInfo>> GetMissingTranslations()
         {
             var allCultures = GetSupportedCultures(out var entryList);
@@ -192,7 +198,7 @@ namespace PH.Babel2.Provider
             return d;
         }
 
-        private void WatcherOnChanged(object sender, FileSystemEventArgs e)
+        private void WatcherOnChanged(object sender, [NotNull] FileSystemEventArgs e)
         {
             var f = new FileInfo(e.FullPath);
             var arg = new SourceEntriesChangedEventArgs()
@@ -211,7 +217,8 @@ namespace PH.Babel2.Provider
         }
 
 
-        public List<BabelLocalizationFormat> ProvideFromEntries(IEnumerable<Tuple<ResourceModel,DateTime>> models)
+        [NotNull]
+        public List<BabelLocalizationFormat> ProvideFromEntries([NotNull] IEnumerable<Tuple<ResourceModel,DateTime>> models)
         {
             var tmp = new List<BabelLocalizationFormat>();
             foreach (var resourceModel in models)
@@ -223,7 +230,7 @@ namespace PH.Babel2.Provider
         }
 
         internal static List<Type>  ScanEntriesForServiceInjection(ILogger<BabelStringLocalizer> logger,
-                                                            IOptions<BabelLocalizationOptions> options,
+                                                            [NotNull] IOptions<BabelLocalizationOptions> options,
                                                             IMemoryCache babelCache)
         {
             var provider = new JsonBabelEntryProvider(logger, options, babelCache);

@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -12,8 +13,9 @@ namespace PH.Babel2.Extensions
 {
     public static class ServiceConfigurationExtensions
     {
-        public static IServiceCollection AddBabel(this IServiceCollection services,
-                                                  Action<PH.Babel2.Config.BabelLocalizationOptions> option)
+        [NotNull]
+        public static IServiceCollection AddBabel([NotNull] this IServiceCollection services,
+                                                  [NotNull] Action<PH.Babel2.Config.BabelLocalizationOptions> option)
         {
             if(null == services)
                 throw new ArgumentNullException(nameof(services));
@@ -24,37 +26,10 @@ namespace PH.Babel2.Extensions
             return ServiceConfigurationExtensions.AddBabel(services);
         }
 
-        /*
-        public static IServiceCollection AddBabel(this IServiceCollection services, PH.Babel2.Config.BabelLocalizationOptions opt)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
+        
 
-            services.AddScoped(typeof(JsonBabelEntryProvider), p =>
-            {
-                return new JsonBabelEntryProvider(p.GetService<ILogger<BabelStringLocalizer>>(), opt, p.GetService<IMemoryCache>() );
-            });
-
-            services.AddScoped(typeof(IEntryWriter), p => p.GetRequiredService<JsonBabelEntryProvider>());
-
-
-            services.AddScoped(typeof(IEntryProvider), p => p.GetRequiredService<JsonBabelEntryProvider>());
-
-
-            services.AddScoped(typeof(BabelStringLocalizer),  p => new BabelStringLocalizer(p.GetService<IEntryProvider>(),
-                                                                                            p.GetService<ILogger<BabelStringLocalizer>>()));
-
-            services.AddScoped(typeof(IBabel), p => p.GetRequiredService<BabelStringLocalizer>());
-                              
-            services.AddScoped(typeof(IStringLocalizer), p => p.GetRequiredService<BabelStringLocalizer>());
-
-
-            return services;
-        }
-        */
-        public static IServiceCollection AddBabel(this IServiceCollection services)
+        [NotNull]
+        public static IServiceCollection AddBabel([NotNull] this IServiceCollection services)
         {
             if (services == null)
             {

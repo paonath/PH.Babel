@@ -22,7 +22,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PH.Babel2.Autofac\PH.Babel2.Autofac.csproj" />
     <ProjectReference Include="..\PH.Babel2\PH.Babel2.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestResource\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestResource\Test.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestResource\test2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

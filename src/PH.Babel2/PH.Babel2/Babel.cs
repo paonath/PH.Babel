@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using PH.Babel2.Exception;
 using PH.Babel2.Models;
@@ -21,7 +22,7 @@ namespace PH.Babel2
         public List<CultureInfo> SupportedCultures => EntryProvider.GetSupportedCultures();
 
 
-        public Babel(IEntryProvider entryProvider, ILogger<BabelStringLocalizer> logger, CultureInfo currentCulture = null)
+        public Babel(IEntryProvider entryProvider, ILogger<BabelStringLocalizer> logger, [CanBeNull] CultureInfo currentCulture = null)
         {
             EntryProvider = entryProvider;
             Logger         = logger;
@@ -29,6 +30,7 @@ namespace PH.Babel2
 
         }
 
+        [CanBeNull]
         private string GetAssemblyName<TResource>()
         {
             var t = typeof(TResource);
@@ -40,7 +42,7 @@ namespace PH.Babel2
             return GetStringFromEmpty(info, keyName, arguments).ToTypedString<TResource>();
         }
 
-        protected virtual BabelLocalizedString GetStringFromEmpty(CultureInfo info,string keyName, params object[] arguments)
+        protected virtual BabelLocalizedString GetStringFromEmpty([CanBeNull] CultureInfo info,string keyName, [CanBeNull] params object[] arguments)
         {
             var allLocations = EntryProvider.ProvideEntries().Select(x => x.Location).Distinct().ToArray();
             var locations    = string.Join(", ", allLocations);
@@ -49,7 +51,7 @@ namespace PH.Babel2
             if (EntryProvider.ThrowExceptionOnNotFoundKey)
             {
                 Logger.LogWarning($"Babel Options are set for trow exception on not found key: empty key '{keyName}'");
-                ArgumentOutOfRangeException ex = new ArgumentOutOfRangeException(nameof(keyName), keyName,$"Key not found - key '{keyName}', culture '{info.Name}'");
+                ArgumentOutOfRangeException ex = new ArgumentOutOfRangeException(nameof(keyName), keyName,$"Key not found - key '{keyName}', culture '{info?.Name}'");
                 throw new BabelKeyNotFoundException(keyName, ex, locations);
             }
             else
@@ -162,7 +164,7 @@ namespace PH.Babel2
             return GetStringFromFormat<TResource>(null, format, null);
         }
 
-        internal BabelLocalizedString InternalGet(string name, List<BabelLocalizationFormat> data)
+        internal BabelLocalizedString InternalGet(string name, [NotNull] List<BabelLocalizationFormat> data)
         {
             var format = data.FirstOrDefault(x => x.Key.ToLower() == name.ToLower());
             if (null == format)
@@ -240,7 +242,7 @@ namespace PH.Babel2
             return GetStringFromFormat(culture, format, arguments);
         }
 
-        public BabelLocalizedString Get(Type resourceType, CultureInfo culture, string name, params object[] arguments)
+        public BabelLocalizedString Get([NotNull] Type resourceType, CultureInfo culture, string name, params object[] arguments)
         {
             var res = resourceType.AssemblyQualifiedName;
 
@@ -253,6 +255,7 @@ namespace PH.Babel2
         }
 
 
+        [NotNull]
         public IEnumerable<BabelLocalizedString> GetAllBabelLocalizedStrings(bool includeParentCultures)
         {
             var localization = EntryProvider.ProvideEntries();
@@ -269,9 +272,12 @@ namespace PH.Babel2
         public BabelLocalizedString this[CultureInfo culture, string name, params object[] arguments] => Get(culture, name, arguments);
 
 
-        public BabelLocalizedString this[Type resourceType, CultureInfo culture, string name] => throw new NotImplementedException();
+        public BabelLocalizedString this[Type resourceType, CultureInfo culture, string name] =>
+            Get(resourceType, culture, name);
 
-        public BabelLocalizedString this[Type resourceType, CultureInfo culture, string name, params object[] arguments] => throw new NotImplementedException();
-        
+        public BabelLocalizedString
+            this[Type resourceType, CultureInfo culture, string name, params object[] arguments] =>
+            Get(resourceType, culture, name, arguments);
+
     }
 }

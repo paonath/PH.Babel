@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace PH.Babel2.Models
@@ -57,12 +58,12 @@ namespace PH.Babel2.Models
             Values = new Dictionary<string, object>();
         }
 
-        public BabelLocalizationFormat(string key, Dictionary<string, string> values):this(key,(int?)null, key, values)
+        public BabelLocalizationFormat(string key, [NotNull] Dictionary<string, string> values):this(key,(int?)null, key, values)
         {
             
         }
 
-        public BabelLocalizationFormat(string key, int? eventId, string name, Dictionary<string, string> values)
+        public BabelLocalizationFormat(string key, int? eventId, string name, [NotNull] Dictionary<string, string> values)
             :this()
         {
             Key = key;

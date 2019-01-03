@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace PH.Babel2.Models
@@ -19,25 +20,30 @@ namespace PH.Babel2.Models
 
         private readonly List<BabelEntry> _entries;
 
+        [NotNull]
         public List<BabelEntry> Entries => GetEntries();
 
+        [NotNull]
         private List<BabelEntry> GetEntries()
         {
             return _entries.OrderBy(x => x.OrderField).ToList();
         }
 
-        public EntryList MapEntries(IEnumerable<BabelEntry> entries)
+        [NotNull]
+        public EntryList MapEntries([NotNull] IEnumerable<BabelEntry> entries)
         {
             _entries.AddRange(entries);
             return this;
         }
 
+        [NotNull]
         public EntryList Entry(BabelEntry e)
         {
             return MapEntries(new List<BabelEntry>() {e});
         }
 
-        public EntryList Entry(Type resourceType, IEnumerable<BabelLocalizationFormat> values)
+        [NotNull]
+        public EntryList Entry(Type resourceType, [NotNull] IEnumerable<BabelLocalizationFormat> values)
         {
             return Entry(new BabelEntry()
                              {ResourceType = resourceType, EntryValues = values.OrderBy(x => x.Key).ToArray()});
@@ -51,6 +57,7 @@ namespace PH.Babel2.Models
         [JsonProperty(Order = 2)]
         public BabelLocalizationFormat[] EntryValues { get; set; }
 
+        [NotNull]
         [JsonIgnore]
         internal string OrderField => $"{ResourceType?.FullName}_BabelEntry";
     }

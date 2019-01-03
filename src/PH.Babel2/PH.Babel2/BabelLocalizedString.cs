@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
@@ -75,6 +76,7 @@ namespace PH.Babel2
             EventId = new EventId(eventIdValue, eventName);
         }
 
+        [NotNull]
         internal BabelLocalizedString<TResource> ToTypedString<TResource>()
         {
             return new BabelLocalizedString<TResource>(Culture,Name,Value, ResourceNotFound, SearchedLocation, EventId.Id, EventId.Name )

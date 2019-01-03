@@ -1,0 +1,58 @@
+{
+  "ResourceDictionary": [
+    {
+      "ResourceType": "PH.Babel2.Models.BabelLocalizationFormat, PH.Babel2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "EntryValues": [
+        {
+          "Key": "Test Hell",
+          "EventId": 666,
+          "EventName": "Test Hell",
+          "it-IT": "Prova buonissima",
+          "fr-FR": "Debug FR",
+          "fr": "Main Français est Hell",
+          "en-US": "Test Hell"
+        }
+      ]
+    },
+    {
+      "ResourceType": "PH.Babel2.UnitTestProject.WriteTest, PH.Babel2.UnitTestProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "EntryValues": [
+        {
+          "Key": "Test",
+          "EventId": 1,
+          "EventName": "Test",
+          "it-IT": "Prova",
+          "fr-FR": "Debug FR",
+          "en-US": "Test"
+        },
+        {
+          "Key": "Test 12",
+          "EventId": 1,
+          "EventName": "Test 12",
+          "it-IT": "Prova buonissima",
+          "fr-FR": "Debug FR",
+          "fr": "Main Français Test 12",
+          "en-US": "Test 12"
+        },
+        {
+          "Key": "Test 2 {0}",
+          "EventId": 2,
+          "EventName": "Test 2 {0}",
+          "en-US": "Testing with Parameter {0}",
+          "it-IT": "Prova con parametro {0}  2018-11-22T10:02:52.5901171+01:00",
+          "fr-FR": "Debug {0} FR  2018-11-22T10:02:52.5901545+01:00",
+          "fr": "Main Français Test 2 {0}"
+        },
+        {
+          "Key": "Test 3 2018-11-22T10:02:52.5901686+01:00 0",
+          "EventId": 64,
+          "EventName": "Test 636784777725901622 0",
+          "en-US": "Testing 3 with Parameter {0}",
+          "it-IT": "Prova 3 con parametro {0}",
+          "fr-FR": "Debug 3 {0} FR",
+          "fr": "Main Français Testing 3 with Parameter {{0}}"
+        }
+      ]
+    }
+  ]
+}

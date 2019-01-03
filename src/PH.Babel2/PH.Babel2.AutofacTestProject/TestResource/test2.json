@@ -1,0 +1,16 @@
+{
+  "ResourceDictionary": [
+    {
+      "ResourceType": null,
+      "EntryValues": [
+        {
+          "Key": "test-null",
+          "EventId": null,
+          "EventName": "test-null",
+          "it-IT": "test-null",
+          "en-US": "test-null"
+        }
+      ]
+    }
+  ]
+}

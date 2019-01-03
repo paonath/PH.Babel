@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PH.Babel2.Config;
@@ -16,7 +17,7 @@ namespace PH.Babel2.Provider
         protected readonly BabelLocalizationOptions Options;
         protected readonly ILogger<BabelStringLocalizer> Logger;
 
-        public JsonBabelEntryWriter(ILogger<BabelStringLocalizer> logger, BabelLocalizationOptions options)
+        public JsonBabelEntryWriter(ILogger<BabelStringLocalizer> logger, [NotNull] BabelLocalizationOptions options)
         {
             Logger           = logger;
             Options           = options;
@@ -28,7 +29,7 @@ namespace PH.Babel2.Provider
         }
 
 
-        public void Write(IEnumerable<ResourceModel> models, bool provideKeyAsDefaultCultureTranslation = true,
+        public void Write([NotNull] IEnumerable<ResourceModel> models, bool provideKeyAsDefaultCultureTranslation = true,
                           bool indented = true)
         {
             var t = WriteAsync(models, provideKeyAsDefaultCultureTranslation, indented);
@@ -36,7 +37,8 @@ namespace PH.Babel2.Provider
             
         }
 
-        private ResourceModel[] PrepareModels(IEnumerable<ResourceModel> models,
+        [NotNull]
+        private ResourceModel[] PrepareModels([NotNull] IEnumerable<ResourceModel> models,
                                               bool provideKeyAsDefaultCultureTranslation)
         {
             if (!provideKeyAsDefaultCultureTranslation)
@@ -91,7 +93,7 @@ namespace PH.Babel2.Provider
             return serialized;
         }
 
-        public async Task<Guid> WriteAsync(IEnumerable<ResourceModel> models,
+        public async Task<Guid> WriteAsync([NotNull] IEnumerable<ResourceModel> models,
                                            bool provideKeyAsDefaultCultureTranslation = true, bool indented = true)
         {
             var modelsArray = PrepareModels(models, provideKeyAsDefaultCultureTranslation);
@@ -100,7 +102,7 @@ namespace PH.Babel2.Provider
             {
                 var json  = JsonSerialize(resourceModel, indented);
                 var fName = $"{ResourceDirectory.FullName}{Path.DirectorySeparatorChar}{resourceModel.FileName}";
-                if (!fName.EndsWith(".json"))
+                if (!fName.EndsWith(".json", StringComparison.InvariantCulture))
                     fName = $"{fName}.json";
 
                 using (var sw = new StreamWriter(fName))
