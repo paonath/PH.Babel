@@ -27,11 +27,17 @@ namespace PH.Babel2.Extensions
             {
                 foreach (var babelEntry in m.ResourceDictionary)
                 {
+                    var assemblyName = babelEntry.ResourceType?.AssemblyQualifiedName;
+                    var resourceName = babelEntry.ResourceType?.Name;
+
                     foreach (var v in babelEntry.EntryValues)
                     {
+
                         var values = v.Values.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => (object) pair.Value);
-                        var format = new BabelLocalizationFormat(v.Key, v.EventId, v.EventName, v.ResourceName, values,
-                                                                 babelEntry.ResourceType?.AssemblyQualifiedName,
+                        var format = new BabelLocalizationFormat(v.Key, v.EventId, v.EventName,
+                                                                 resourceName,
+                                                                 values,
+                                                                 assemblyName,
                                                                  lastWritetimeUtc);
                         format.Location = m.FileName;
 

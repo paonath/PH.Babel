@@ -55,6 +55,16 @@ namespace PH.Babel2.UnitTestProject
         }
 
         [Fact]
+        public void ReadAllStrings()
+        {
+            var svc = ServiceProvider.GetService<IStringLocalizer>();
+
+            var allStrings = svc.GetAllStrings(true);
+
+            Assert.NotEmpty(allStrings);
+        }
+
+        [Fact]
         public void ReadStringBase()
         {
             var svc = ServiceProvider.GetService<IStringLocalizer>();
@@ -63,7 +73,16 @@ namespace PH.Babel2.UnitTestProject
             var notFound = svc["key not found"];
         }
 
-        
+        [Fact]
+        public void ReadTyped()
+        {
+            var svc = ServiceProvider.GetService<IStringLocalizer<WriteTest>>();
+
+            var allStrings = svc.GetAllStrings(true);
+
+            Assert.NotEmpty(allStrings);
+
+        }
 
     }
 }

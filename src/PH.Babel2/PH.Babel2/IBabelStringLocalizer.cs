@@ -19,15 +19,12 @@ namespace PH.Babel2
         new BabelLocalizedString this[Type resourceType,CultureInfo culture, string name, params object[] arguments] { get; }
     }
 
-    public interface IBabelStringLocalizer<TResource> : IBabel, IStringLocalizer<TResource>
+    public interface IBabelStringLocalizer<TResource> : IBabelBase, IStringLocalizer<TResource>
     {
         new BabelLocalizedString<TResource> this[string name] { get; }
         new BabelLocalizedString<TResource> this[CultureInfo culture, string name] { get; }
-        new BabelLocalizedString<TResource> this[Type resourceType,CultureInfo culture, string name] { get; }
-        
-
         new BabelLocalizedString<TResource> this[string name, params object[] arguments] { get; }
         new BabelLocalizedString<TResource> this[CultureInfo culture, string name, params object[] arguments] { get; }
-        new BabelLocalizedString<TResource> this[Type resourceType,CultureInfo culture, string name, params object[] arguments] { get; }
+
     }
 }

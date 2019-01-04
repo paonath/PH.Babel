@@ -12,14 +12,15 @@
 
 
     <Description>A netstandard2.0 utility based on IStringLocalizer and Json</Description>
+    
     <PackageReleaseNotes>
-      fix ambiguity error between interfaces
+      Added support for generics.
     </PackageReleaseNotes>
 
 
     <PackageTags>IStringLocalizer,CultureInfo,Localization,csharp</PackageTags>
 
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.0.3</PackageVersion>
     <IconUrl>https://raw.githubusercontent.com/paonath/Icons/master/nuget_es_img.png</IconUrl>
     <Authors>Paolo Innocenti</Authors>
     <Copyright>Copyright PH 2018 (c) paonath@gmail.com. All rights reserved.</Copyright>

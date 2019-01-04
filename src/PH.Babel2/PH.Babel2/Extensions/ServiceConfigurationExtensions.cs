@@ -46,10 +46,7 @@ namespace PH.Babel2.Extensions
             });
 
             services.AddSingleton(typeof(IEntryWriter), p => p.GetRequiredService<JsonBabelEntryProvider>());
-
-
             services.AddSingleton(typeof(IEntryProvider), p => p.GetRequiredService<JsonBabelEntryProvider>());
-
 
             services.AddScoped(typeof(BabelStringLocalizer),  p => new BabelStringLocalizer(p.GetService<IEntryProvider>(),
                                                                                             p.GetService<ILogger<BabelStringLocalizer>>()));
@@ -57,7 +54,12 @@ namespace PH.Babel2.Extensions
             services.AddScoped(typeof(IBabel), p => p.GetRequiredService<BabelStringLocalizer>());
                               
             services.AddScoped(typeof(IStringLocalizer), p => p.GetRequiredService<BabelStringLocalizer>());
+            
 
+            services.AddScoped(typeof(BabelStringLocalizer<>), typeof(BabelStringLocalizer<>));
+            services.AddScoped(typeof(IStringLocalizer<>), typeof(BabelStringLocalizer<>));
+            services.AddScoped(typeof(IBabelStringLocalizer<>), typeof(BabelStringLocalizer<>));
+            
             //services.Add(new ServiceDescriptor())
 
             //var scanTypes = JsonBabelEntryProvider.ScanEntriesForServiceInjection()
